@@ -1,79 +1,93 @@
-Daily Reflection Journal
-This is a web-based journaling application built with Streamlit. It helps you reflect on your day and plan ahead by using an AI model to generate insights based on your journal entry, intention, dream, and top 3 priorities.
 
-The app uses the Together.ai API (LLaMA-3-70B) to generate summaries and strategies, and stores all data in a local SQLite database so you can revisit your entries anytime.
+````markdown
+# ConsiousDay Agent
 
-Features
-Write your daily journal, intention, dream, and top 3 priorities
+A simple journaling web app agent built with [Streamlit](https://streamlit.io) that uses AI (LLaMA-3-70B via [Together API](https://www.together.ai/)) to help you reflect and plan your day. The app stores entries in a local SQLite database and generates insights based on your journal input, intention, dream, and daily priorities.
 
-Get AI-generated insights including:
+---
 
-Inner reflection
+## Features
 
-Dream interpretation
+- Input your:
+  - Daily journal entry
+  - Intention for the day
+  - Dream (if any)
+  - Top 3 priorities
+- AI-generated insights including:
+  - Inner reflection
+  - Dream interpretation
+  - Mindset insight
+  - Suggested day strategy
+- Save and update daily entries
+- View past entries from a calendar dropdown
 
-Mindset insight
+---
 
-Suggested day strategy
+## Getting Started
 
-Save entries for each date and update them
+### 1. Clone the Repository
 
-View and load past entries from a dropdown menu
-
-How to Run
-1. Clone the repository
+```bash
 git clone https://github.com/yourusername/daily-reflection-journal.git
 cd daily-reflection-journal
+````
 
-3. Install dependencies
+### 2. Install Dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-4. Set up your API key
-Create a .env file in the project root and add your Together API key:
+### 3. Set Up Your API Key
 
+Create a `.env` file in the root folder and add your [Together API](https://www.together.ai/) key:
+
+```env
 together_api=your_together_api_key_here
-If you're deploying on Streamlit Cloud, use the Secrets Manager instead of a .env file.
+```
 
-4. Start the application
+If deploying on **Streamlit Cloud**, use **Secrets Manager** instead of `.env`.
+
+### 4. Run the Application
+
+```bash
 streamlit run app.py
+```
 
+---
 
-Project Structure
+## Project Structure
 
+```
 .
 ├── app.py                # Main Streamlit application
 ├── entries.db            # SQLite database (created on first run)
-├── .env                  # API key file (optional for local use)
-├── requirements.txt      # List of dependencies
+├── .env                  # API key file (for local use only)
+├── requirements.txt      # Python dependencies
 └── README.md             # Project documentation
-Technologies Used
-Python
+```
 
-Streamlit
+---
 
-Together API (LLaMA-3-70B)
+## Technologies Used
 
-SQLite
+* Python
+* Streamlit
+* Together API (LLaMA-3-70B)
+* SQLite
+* Regular Expressions (for parsing AI output)
 
-Regular Expressions (for parsing AI output)
+---
 
-Notes
-You must have an API key from Together.ai
+## Notes
 
-All data is stored locally in a SQLite database file
+* Requires a Together API key (get one at [https://www.together.ai/](https://www.together.ai/))
+* Entries are stored locally in `entries.db`
+* Only today's entry can be generated or edited
+* Previous entries are read-only
 
-You can only generate or edit entries for today’s date
+---
 
-Previous entries are read-only
 
-Future Improvements
-Use a cloud database to support multiple users
 
-Add login functionality
-
-Mobile-friendly layout
-
-Notification or email reminders
-
-Option to export entries to PDF or Google Docs
 
