@@ -1,5 +1,4 @@
 
-````markdown
 # ConsiousDay Agent
 
 A simple journaling web app agent built with [Streamlit](https://streamlit.io) that uses AI (LLaMA-3-70B via [Together API](https://www.together.ai/)) to help you reflect and plan your day. The app stores entries in a local SQLite database and generates insights based on your journal input, intention, dream, and daily priorities.
