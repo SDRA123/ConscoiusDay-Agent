@@ -1,4 +1,3 @@
 streamlit
 together
-sqlite3 # Built-in, no need to install
 langchain-openai 
