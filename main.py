@@ -8,7 +8,7 @@ import os
 import re
 
 # Load secrets from .env
-load_dotenv(dotenv_path="prod.env")
+# Removed: load_dotenv(dotenv_path="prod.env") as Streamlit Cloud handles secrets directly as environment variables.
 client = Together(api_key=os.getenv("together_api"))
 
 def create_database():
