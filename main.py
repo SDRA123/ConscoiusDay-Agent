@@ -9,8 +9,9 @@ import os
 import re  # For parsing the AI-generated output
 
 # Load API key from environment variables (configured on Streamlit Cloud)
-client = Together(api_key=os.getenv("together_api"))
 
+#client = Together(api_key=os.getenv("together_api"))
+client = Together(api_key="265135679e32525f986b0790d263027684ff85297ec054a70e59c27eff964b69")
 # ---------------------- DATABASE SETUP ----------------------
 
 def create_database():
@@ -134,7 +135,10 @@ def load_entry(selected_date):
         SELECT journal, intention, dream, priorities, reflection, dream_interpretation, mindset_insight, strategy 
         FROM entries WHERE date = ?
     """, (selected_date,))
+    
     entry = cursor.fetchone()
+    if entry== None:
+        entry=[]
     conn.close()
     return entry
 
@@ -161,7 +165,7 @@ def main():
     st.sidebar.header("📅 View Previous Entries")
     all_dates = get_all_dates()
     selected_view_date = st.sidebar.selectbox("Select a date", all_dates)
-
+    
     # Load data into session state when a previous entry is selected
     if selected_view_date and selected_view_date != st.session_state.get("loaded_date"):
         loaded_entry = load_entry(selected_view_date)
@@ -176,14 +180,27 @@ def main():
             st.session_state["strategy_output"] = loaded_entry[7]
             st.session_state["loaded_date"] = selected_view_date
             st.sidebar.success(f"Loaded entry for {selected_view_date}")
-
+    if today not in all_dates:
+        if st.sidebar.button("add today entry"):
+            save_entry(
+                    selected_date=today,
+                    journal="",
+                    intention="",
+                    dream="",
+                    priorities="",
+                    reflection="",
+                    dream_interpretation="",
+                    mindset_insight="",
+                    strategy=""
+                )
+            st.rerun()
     # Input form for today
     st.subheader("✨ Today's Journal")
     journal = st.text_area("Journal Entry", value=st.session_state.get("journal", ""), height=150, key="journal")
     intention = st.text_area("Intention", value=st.session_state.get("intention", ""), height=100, key="intention")
     dream = st.text_area("Dream", value=st.session_state.get("dream", ""), height=100, key="dream")
     priorities = st.text_area("Top 3 Priorities", value=st.session_state.get("priorities", ""), height=100, key="priorities")
-
+    
     # Generate AI-based insights
     if st.button("✨ Generate Insights"):
         if selected_view_date != today and selected_view_date:
@@ -192,7 +209,7 @@ def main():
             with st.spinner("Generating..."):
                 output = get_response(journal, intention, dream, priorities)
                 parsed_output = parse_ai_output(output)
-
+                
                 # Save to session and database
                 st.session_state["reflection_output"] = parsed_output["reflection"]
                 st.session_state["dream_interpretation_output"] = parsed_output["dream_interpretation"]
